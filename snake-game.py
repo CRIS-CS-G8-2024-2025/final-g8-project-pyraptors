@@ -51,6 +51,8 @@ def increase_score(score, points=1):
     """
     return score + points
 
+'''
+
 # Inside your main game loop
 running = True
 while running:
@@ -65,3 +67,5 @@ while running:
     screen.fill((0, 0, 0))  # Clear screen with black
     draw_score(screen, score)  # Draw the score
     pygame.display.update()  # Update the display
+
+'''
