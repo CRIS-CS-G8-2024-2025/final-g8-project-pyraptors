@@ -1,7 +1,26 @@
 '''
 scroing system
 '''
+
+from typing import Set
 import pygame
+import time
+import random
+
+# Initialize pygame
+pygame.init()
+
+# Set screen dimensions
+WIDTH, HEIGHT = 600, 400
+BLOCK_SIZE = 20
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption('Snake Game')
+
+# Colors
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+RED = (213, 50, 80)
+BLACK = (0, 0, 0)
 
 # Initialize Pygame's font module
 pygame.font.init()
