@@ -1,3 +1,6 @@
+'''
+scroing system
+'''
 import pygame
 
 # Initialize Pygame's font module
