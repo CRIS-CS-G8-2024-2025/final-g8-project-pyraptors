@@ -37,7 +37,7 @@ def draw_score(screen, score):
     :param screen: The Pygame screen surface
     :param score: The current score to display
     """
-    # Render the score text
+    # displays the score text
     score_text = font.render(f"Score: {score}", True, (255, 255, 255))  # White color
     # Display the score in the top-left corner
     screen.blit(score_text, (10, 10))
@@ -51,6 +51,7 @@ def increase_score(score, points=1):
     """
     return score + points
 
+# fix this
 '''
 
 # Inside your main game loop
