@@ -23,6 +23,7 @@ GREEN = (0, 200, 0)
 RED = (200, 0, 0)
 YELLOW = (255, 255, 0)
 
+
 # Clock and speed
 clock = pygame.time.Clock()
 speed = 10  # Frames per second
@@ -30,9 +31,29 @@ speed = 10  # Frames per second
 # Font for score
 font = pygame.font.SysFont(None, 36)
 
+# Create the Sprite class
+class Player(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.image.load("snake_green_head_64.png").convert_alpha() # Create a snake sprite
+        self.rect = self.image.get_rect()
+        self.rect = (x,y)
+
+    def update(self):
+        self.rect.x += 1  # Move the sprite to the right by 1 pixel every frame
+
+# Create sprite group and add player
+all_sprites = pygame.sprite.Group()
+player = Player(10, 10)
+all_sprites.add(player)
+
+
 # Snake class
 class Snake:
     def __init__(self):
+        # Create a snake sprite
+        self.image = pygame.transform.scale(
+            pygame.image.load("snake_green_head_64.png").convert_alpha(), (CELL_SIZE, CELL_SIZE))
         self.segments = [(WIDTH // 2, HEIGHT // 2)]
         self.direction = (CELL_SIZE, 0)  # start moving right
 
@@ -58,7 +79,10 @@ class Snake:
         return head in self.segments[1:]
 
     def draw(self, surface):
-        for segment in self.segments:
+        print(self.segments[0])
+        surface.blit(self.image, self.segments[0])
+
+        for segment in self.segments[1:]:
             rect = pygame.Rect(segment[0], segment[1], CELL_SIZE, CELL_SIZE)
             pygame.draw.rect(surface, GREEN, rect)
 
@@ -100,6 +124,8 @@ def game_over(surface, score):
     sys.exit()
 
 def main():
+    '''function for every event in the game '''
+
     snake = Snake()
     coin = Coin()
     score = 0
@@ -109,11 +135,11 @@ def main():
     while running:
         clock.tick(speed)
 
-        for event in pygame.event.get():
+        for event in pygame.event.get():    
             if event.type == pygame.QUIT:
                 running = False
 
-            # Handle key presses to change direction
+            # Handle key presses to change direction with if statements
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     snake.change_direction((0, -CELL_SIZE))
@@ -150,11 +176,31 @@ def main():
             snake.segments.pop()
 
         # Draw everything
-        screen.fill(BLACK)
-        snake.draw(screen)
-        coin.draw(screen)
-        draw_score(screen, score)
+        screen.fill(BLACK) #black brackground
+        snake.draw(screen) #snake
+        coin.draw(screen) #coin
+        draw_score(screen, score) #scoreboard
         pygame.display.flip()
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                        running = False
+
+        # Update sprites
+        all_sprites.update()
+
+        # Clear screen
+        screen.fill((0, 0, 0))
+
+        # Draw sprites
+        all_sprites.draw(screen)
+
+        # Flip display
+        pygame.display.flip()
+        clock.tick(60)
+
 
     pygame.quit()
 
